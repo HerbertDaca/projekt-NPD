@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy
+import numpy as np
 
 
 def read_data(filename, skiprows):
@@ -35,7 +35,7 @@ def get_merged_data(gdp_data, pop_data, emi_data, years, countries):
             if numpy.isnan(emi):
                 continue
             if first_row:
-                merged_array = numpy.array([year, country, pop, gdp, gdp/pop, emi, emi/pop])
+                merged_array = numpy.array([year, country, pop, gdp, gdp/pop, emi, emi/pop])                ## scalamy po latach i krajach czyli tworzymy ramkę, w której dla każdego roku i dla każdego kraju tworzymy osobny wiersz z informacjami, które nas interesują w kolejnych kolumnach
                 first_row = False
             else:
                 new_row = numpy.array([year, country, pop, gdp, gdp/pop, emi, emi/pop])
@@ -62,7 +62,7 @@ def get_countries_array(gdp_data, pop_data, emi_data):
     gdp_countries = gdp_data['Country Name'].to_numpy().astype(str)
     pop_countries = pop_data['Country Name'].to_numpy().astype(str)
     emi_countries = numpy.unique(numpy.array(emi_data['Country']))
-    countries = numpy.unique(numpy.hstack((gdp_countries, pop_countries, emi_countries)))
+    countries = numpy.unique(numpy.hstack((gdp_countries, pop_countries, emi_countries)))   ## bierzemy sumę wszystkich trzech zbiorów krajów z każdej bazy danych
     return countries
 
 
