@@ -41,7 +41,7 @@ def get_merged_data(gdp_data, pop_data, emi_data, years, countries):
                 new_row = numpy.array([year, country, pop, gdp, gdp/pop, emi, emi/pop])
                 merged_array = numpy.vstack((merged_array, new_row))
 
-    return pd.DataFrame(merged_array, columns=['year','country','population','gdp','gdp_per_capita','emission','emission_per_capita'])
+    return pd.DataFrame(merged_array, columns=['year', 'country', 'population', 'gdp', 'gdp_per_capita', 'emission', 'emission_per_capita'])
 
 
 def get_gdp_or_population(year, country, data):
@@ -73,6 +73,5 @@ def clear_data(gdp_data, pop_data):
 
 
 def get_top_five_emissions_per_capita(merged_data):
-    emissions_per_capita = merged_data.sort_values(by='emission_per_capita', ascending=False)
     print('\nFive countries with largest emission per capita\n')
-    print(emissions_per_capita[['year','country','emission','emission_per_capita']].head(5))
+    print(merged_data.sort_values(by='emission_per_capita', ascending=False)[['year', 'country', 'emission', 'emission_per_capita']].head(5))
