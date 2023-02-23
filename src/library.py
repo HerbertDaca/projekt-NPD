@@ -23,8 +23,6 @@ def get_years_array(gdp_data, pop_data, emi_data):
 
 def get_merged_data(gdp_data, pop_data, emi_data, years, countries):
     first_row = True
-    # data_type = [('year',int),('country',str),('population',int),('gdp',float),('gdp_per_capita',float),('emission',int),('emission_per_capita',float)]
-    merged_array = pd.DataFrame()
     for year in years:
         for country in countries:
             gdp = get_gdp_or_population(year, country, gdp_data)
@@ -36,14 +34,14 @@ def get_merged_data(gdp_data, pop_data, emi_data, years, countries):
                 continue
             if numpy.isnan(emi):
                 continue
-            # if first_row:
-            #     # merged_array = numpy.array((year, country, pop, gdp, gdp/pop, emi, emi/pop), dtype = data_type)
-            #     first_row = False
-            # else:
-            new_row = pd.DataFrame((year, country, pop, gdp, gdp/pop, emi, emi/pop))
-            merged_array.append(new_row)
+            if first_row:
+                merged_array = numpy.array([year, country, pop, gdp, gdp/pop, emi, emi/pop])
+                first_row = False
+            else:
+                new_row = numpy.array([year, country, pop, gdp, gdp/pop, emi, emi/pop])
+                merged_array = numpy.vstack((merged_array, new_row))
 
-    return merged_array
+    return pd.DataFrame(merged_array, columns=['year','country','population','gdp','gdp_per_capita','emission','emission_per_capita'])
 
 
 def get_gdp_or_population(year, country, data):
@@ -72,11 +70,3 @@ def clear_data(gdp_data, pop_data):
     gdp_data = gdp_data.drop(['Country Code', 'Indicator Name', 'Indicator Code', 'Unnamed: 66'], axis=1)
     pop_data = pop_data.drop(['Country Code', 'Indicator Name', 'Indicator Code', 'Unnamed: 66'], axis=1)
     return gdp_data, pop_data
-
-
-# def get_top_five_not_eco_nations(merged_data):
-    # merged_data[-5:-1, :].sort(order=merged_data, kind='heapsort', axis=0)
-    # data_type = [('year', int), ('country', numpy.unicode, 20), ('population', int), ('gdp', float), ('gdp_per_capita', float), ('emission', int), ('emission_per_capita', float)]
-
-    # merged_data = pd.DataFrame(merged_data, index=data_type)
-    # top_five_not_eco = numpy.sort(merged_data, order='emission_per_capita')
