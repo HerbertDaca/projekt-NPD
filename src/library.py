@@ -75,3 +75,8 @@ def clear_data(gdp_data, pop_data):
 def get_top_five_emissions_per_capita(merged_data):
     print('\nFive countries with largest emission per capita\n')
     print(merged_data.sort_values(by='emission_per_capita', ascending=False)[['year', 'country', 'emission', 'emission_per_capita']].head(5))
+
+
+def get_top_five_gdp_per_capita(merged_data):
+    print('\nFive countries with largest gdp per capita\n')
+    print(merged_data.sort_values(by='gdp_per_capita', ascending=False)[['year', 'country', 'gdp', 'gdp_per_capita']].head(5))
