@@ -31,9 +31,11 @@ else:
 
 # print(years)
 countries = library.get_countries_array(gdp_data, pop_data, emi_data)
-# print(countries)
 
 merged_array = library.get_merged_data(gdp_data, pop_data, emi_data, years, countries)
+
+# top_five_not_eco = library.get_top_five_not_eco_nations(merged_array)
+numpy.set_printoptions(suppress=True)
 print(merged_array)
 
 
