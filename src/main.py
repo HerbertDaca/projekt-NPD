@@ -35,9 +35,7 @@ countries = library.get_countries_array(gdp_data, pop_data, emi_data)
 merged_array = library.get_merged_data(gdp_data, pop_data, emi_data, years, countries)
 
 # top_five_not_eco = library.get_top_five_not_eco_nations(merged_array)
-numpy.set_printoptions(suppress=True)
-print(merged_array)
+library.get_top_five_emissions_per_capita(merged_array)
 
 
 # data.columns = data.columns.astype("str")
-# pandas.options.display.float_format = '{:.2f}'.format

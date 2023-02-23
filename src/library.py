@@ -70,3 +70,9 @@ def clear_data(gdp_data, pop_data):
     gdp_data = gdp_data.drop(['Country Code', 'Indicator Name', 'Indicator Code', 'Unnamed: 66'], axis=1)
     pop_data = pop_data.drop(['Country Code', 'Indicator Name', 'Indicator Code', 'Unnamed: 66'], axis=1)
     return gdp_data, pop_data
+
+
+def get_top_five_emissions_per_capita(merged_data):
+    emissions_per_capita = merged_data.sort_values(by='emission_per_capita', ascending=False)
+    print('\nFive countries with largest emission per capita\n')
+    print(emissions_per_capita[['year','country','emission','emission_per_capita']].head(5))
