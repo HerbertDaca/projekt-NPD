@@ -19,8 +19,8 @@ def get_min_max_years_from_column(data):
 
 
 def get_years_array(gdp_data, pop_data, emi_data):
-    [gdp_min, gdp_max] = get_min_max_years_from_row(gdp_data)           ## pobieramy tylko te lata, które występują we wszystkich zbiorach
-    [pop_min, pop_max] = get_min_max_years_from_row(pop_data)
+    [gdp_min, gdp_max] = get_min_max_years_from_row(gdp_data)           ## pobieramy tylko te lata, które występują we wszystkich zbiorach, na razie bierzemy te kraje
+    [pop_min, pop_max] = get_min_max_years_from_row(pop_data)           ## które oczywiście nie są w 3 zbiorach jednocześnie bo pomiar na nich był za wcześnie lub za późno
     [emi_min, emi_max] = get_min_max_years_from_column(emi_data)
     return list(range(max(gdp_min, pop_min, emi_min), min(gdp_max, pop_max, emi_max)))
 
@@ -34,7 +34,7 @@ def get_merged_data(gdp_data, pop_data, emi_data, years, countries):
             emi = get_emission(year, country, emi_data)
             if numpy.isnan(gdp):
                 continue                                                                                    ## Tutaj jeśli dla któregoś kraju nie znajdziemy w danych wartości dla miary emisji lub miary populacji lub miary gdp
-                                                                                                            ## to oznacza, że ten kraj nie występuje we wszystkich zbiorach danych i jego nie bierzemy pod uwagę
+                                                                                                            ## to oznacza, że ten kraj nie występuje we wszystkich zbiorach danych i jego nie bierzemy pod uwagę. Tak samo z latami.
             if numpy.isnan(pop):
                 continue
             if numpy.isnan(emi):
@@ -52,15 +52,15 @@ def get_merged_data(gdp_data, pop_data, emi_data, years, countries):
 
 
 def get_gdp_or_population(year, country, data):
-    cell = data.loc[data['Country Name'] == country, str(year)]             ##funkcja zwraca dla zbioru z populacją dla podanego w argumencie roku i kraju jego populacje czyli odpowiedni wyraz macierzy. robi analogicznie z gdp dla ramki danych gpd
+    cell = data.loc[data['Country Name'] == country, str(year)]             ##funkcja zwraca dla zbioru z populacją dla podanego w argumencie roku i kraju jego populacje czyli odpowiedni wyraz macierzy. robi analogicznie z gdp dla ramki danych gdp
     if cell.count() == 0:
         return numpy.NaN
     return float(cell.item())
 
 
 def get_emission(year, country, data):
-    cell = data.loc[(data['Country'] == country) & (data['Year'] == year), 'Total']         ## dla każdego roku i każdego kraju jest tylko jedna kombinacja ich kombinacja, która da wartość miary emisji.
-                                                                                            ## kiedy w wierszu będziemy mieli i (w columnie "Country") kraj zadany argumentem funkcji , (w columnie "Year") i rok zadany argumentem to dostaniemy szukaną miarę emisji tego kraju w tym roku
+    cell = data.loc[(data['Country'] == country) & (data['Year'] == year), 'Total']         ## dla każdego roku i każdego kraju jest tylko jedna kombinacja, która da wartość miary emisji.
+                                                                                            ## kiedy w wierszu będziemy mieli i (w columnie "Country") kraj zadany argumentem, (w columnie "Year") i rok zadany argumentem to jednoznacznie wyznaczymy szukaną miarę emisji tego kraju w tym roku
     if cell.count() == 0:
         return numpy.NaN
     return float(cell.item())
@@ -97,7 +97,7 @@ def get_biggest_difference_in_emission(merged_data, years):
     countries_now = numpy.unique(numpy.array(emission_now['country']))                                                                              ## Weźmy wszystkie kraje, które mierzyły emisję w ostatnim roku
     countries = numpy.hstack((countries_ten_years_ago, countries_now))                                                                              ## Weźmy wszystkie kraje, które mierzyły emisje w roku 10 lat starszym od ostatniego roku
     countries = [item for item, count in Counter(countries).items() if count > 1]
-    emission_ten_years_ago = emission_ten_years_ago[emission_ten_years_ago['country'].isin(countries)]
+    emission_ten_years_ago = emission_ten_years_ago[emission_ten_years_ago['country'].isin(countries)]                                              ## porównujemy dwa wycinki tabeli: ten z ostatniego roku i ten sprzed 10 lat od ostatniego roku
     emission_now = emission_now[emission_now['country'].isin(countries)]
     emission_now[["emission_per_capita"]] = emission_now[["emission_per_capita"]].astype('float32')
     emission_ten_years_ago[["emission_per_capita"]] = emission_ten_years_ago[["emission_per_capita"]].astype('float32')

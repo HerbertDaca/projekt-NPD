@@ -91,7 +91,7 @@ class Test(unittest.TestCase):
 
         data2 = pd.DataFrame(data2)
 
-        data3 = data = {'Year' : [2000,2001,2003],
+        data3 = {'Year' : [2000,2001,2003],
                 'Country' : ['A','A', 'B'],
                 'Total' : [2530,1111,9999],
                 'Fuel' : [2530,1111,9999]
@@ -103,6 +103,8 @@ class Test(unittest.TestCase):
 
         lista = ['A','Alfa','B','Beta','C']
         self.assertListEqual(results,lista)
+
+
 
 if __name__ == '__main__':
     unittest.main()
