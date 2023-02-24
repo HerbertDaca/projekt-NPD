@@ -2,9 +2,6 @@ import argparse
 
 import library
 
-import numpy as np
-
-
 parser = argparse.ArgumentParser(description='dependencies between GDP, population and CO2 emission',
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
@@ -29,14 +26,11 @@ if args.start and args.end:
 else:
     years = library.get_years_array(gdp_data, pop_data, emi_data)
 
-# print(years)
 countries = library.get_countries_array(gdp_data, pop_data, emi_data)       ## Interesują nas kraje, które występują w każdym zbiorze danych więc zbieramy je do tablicy za pomocą "get_countries_array"
 
 merged_array = library.get_merged_data(gdp_data, pop_data, emi_data, years, countries)
 
-# top_five_not_eco = library.get_top_five_not_eco_nations(merged_array)
 library.get_top_five_emissions_per_capita(merged_array)
 library.get_top_five_gdp_per_capita(merged_array)
 
-
-# data.columns = data.columns.astype("str")
+library.get_biggest_difference_in_emission(merged_array, years)

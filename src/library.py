@@ -1,5 +1,8 @@
 import pandas as pd
+
 import numpy as np
+
+from collections import Counter
 
 
 def read_data(filename, skiprows):
@@ -40,8 +43,10 @@ def get_merged_data(gdp_data, pop_data, emi_data, years, countries):
             else:
                 new_row = numpy.array([year, country, pop, gdp, gdp/pop, emi, emi/pop])
                 merged_array = numpy.vstack((merged_array, new_row))
-
-    return pd.DataFrame(merged_array, columns=['year', 'country', 'population', 'gdp', 'gdp_per_capita', 'emission', 'emission_per_capita'])
+    merged_array = pd.DataFrame(merged_array, columns=['year', 'country', 'population', 'gdp', 'gdp_per_capita', 'emission', 'emission_per_capita'])
+    merged_array[["emission_per_capita"]] = merged_array[["emission_per_capita"]].astype('float32')
+    merged_array[["emission_per_capita"]] = merged_array[["gdp_per_capita"]].astype('float32')
+    return merged_array
 
 
 def get_gdp_or_population(year, country, data):
@@ -82,5 +87,19 @@ def get_top_five_gdp_per_capita(merged_data):
     print(merged_data.sort_values(by='gdp_per_capita', ascending=False)[['year', 'country', 'gdp', 'gdp_per_capita']].head(5))
 
 def get_biggest_difference_in_emission(merged_data, years):
-    emission_now = merged_data[['year'] == years[0], ['country', 'emission', 'emission_per_capita']]
-    print(emission_now)
+    emission_now = merged_data.loc[merged_data['year'] == str(years[-1])][['country', 'emission_per_capita']]
+    emission_ten_years_ago = merged_data.loc[merged_data['year'] == str(years[-1] - 10)][['country', 'emission_per_capita']]
+    countries_ten_years_ago = numpy.unique(numpy.array(emission_ten_years_ago['country']))
+    countries_now = numpy.unique(numpy.array(emission_now['country']))
+    countries = numpy.hstack((countries_ten_years_ago, countries_now))
+    countries = [item for item, count in Counter(countries).items() if count > 1]
+    emission_ten_years_ago = emission_ten_years_ago[emission_ten_years_ago['country'].isin(countries)]
+    emission_now = emission_now[emission_now['country'].isin(countries)]
+    emission_now[["emission_per_capita"]] = emission_now[["emission_per_capita"]].astype('float32')
+    emission_ten_years_ago[["emission_per_capita"]] = emission_ten_years_ago[["emission_per_capita"]].astype('float32')
+    emission_comparison = emission_now.set_index('country').subtract(emission_ten_years_ago.set_index('country'))
+    emission_comparison = emission_comparison.sort_values(by='emission_per_capita', ascending=False)
+    print('\nSmallest increase in emission per capita in 10 years\n')
+    print(emission_comparison.tail(1))
+    print('\nBiggest increase in emission per capita in 10 years\n')
+    print(emission_comparison.head(1))
