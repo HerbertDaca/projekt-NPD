@@ -1,0 +1,7 @@
+pyproject.toml
+src/library.py
+src/main.py
+src/projekt_npd_Herbert_Daca.egg-info/PKG-INFO
+src/projekt_npd_Herbert_Daca.egg-info/SOURCES.txt
+src/projekt_npd_Herbert_Daca.egg-info/dependency_links.txt
+src/projekt_npd_Herbert_Daca.egg-info/top_level.txt

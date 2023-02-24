@@ -1,0 +1,13 @@
+[project]
+name = "projekt_npd_Herbert_Daca"
+version = "0.0.1"
+authors = [
+  { name="Herbert Daca", email="zielarz.x@gmail.com" },
+]
+description = "projekt_npd"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
