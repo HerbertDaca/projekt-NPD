@@ -19,7 +19,7 @@ pop_data = library.read_data(args.population, 3)
 pop_data['Country Name'] = pop_data['Country Name'].str.upper()             ## Nazwy krajów są ponazywane raz samymi wielkimi raz z tylko pierwszą wielką literą. Zmieniamy każdą nazwę kraju na napisaną wielkimi literami.
 emi_data = library.read_data(args.emission, 0)
 
-library.clear_data(gdp_data, pop_data)
+gdp_data, pop_data = library.clear_data(gdp_data, pop_data)
 
 if args.start and args.end:
     years = list(range(args.start, args.end + 1))                   ## jeśli podane w argparsie są argumenty "start" i "end" to analizujemy dane tylko z przedziału <start, end>

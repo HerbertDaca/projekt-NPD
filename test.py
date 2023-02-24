@@ -2,8 +2,6 @@ import unittest
 
 import pandas as pd
 
-import numpy as np
-
 import src.library
 
 
@@ -23,8 +21,7 @@ class Test(unittest.TestCase):
                 '2007': [1],
                 '2008': [1],
                 '2009': [1],
-                '2010': [1],
-                'Unnamed': [66]}
+                '2010': [1]}
         df1 = pd.DataFrame(data)
         data = {'Country Name': ['Test'],
                 'Country Code': ['TST'],
@@ -36,8 +33,7 @@ class Test(unittest.TestCase):
                 '2004': [1],
                 '2005': [1],
                 '2006': [1],
-                '2007': [1],
-                'Unnamed': [66]}
+                '2007': [1]}
         df2 = pd.DataFrame(data)
         data = {'Year': [2003, 2004, 2005, 2006, 2007, 2008],
                 'Country': ['TEST1','TEST2','TEST3','TEST4', 'TEST5', 'TEST6'],
