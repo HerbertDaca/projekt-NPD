@@ -1,6 +1,6 @@
 import pandas as pd
 
-import numpy as
+import numpy
 
 from collections import Counter
 
@@ -82,19 +82,19 @@ def clear_data(gdp_data, pop_data):
 
 def get_top_five_emissions_per_capita(merged_data):
     print('\nFive countries with largest emission per capita\n')
-    print(merged_data.sort_values(by='emission_per_capita', ascending=False)[['year', 'country', 'emission', 'emission_per_capita']].head(5))       #żeby wykonać pierwsze zadanie należy posortować malejąco względem emisji per capita i wziąć pierwsze 5
+    print(merged_data.sort_values(by='emission_per_capita', ascending=False)[['year', 'country', 'emission', 'emission_per_capita']].head(5))       ## żeby wykonać pierwsze zadanie należy posortować malejąco względem emisji per capita i wziąć pierwsze 5
 
 
 def get_top_five_gdp_per_capita(merged_data):
     print('\nFive countries with largest gdp per capita\n')
-    print(merged_data.sort_values(by='gdp_per_capita', ascending=False)[['year', 'country', 'gdp', 'gdp_per_capita']].head(5))
+    print(merged_data.sort_values(by='gdp_per_capita', ascending=False)[['year', 'country', 'gdp', 'gdp_per_capita']].head(5))                      ## żeby wykonać drugie zadanie należy posortować malejąco względem gdp per capita i wziąć pierwsze 5
 
 def get_biggest_difference_in_emission(merged_data, years):
-    emission_now = merged_data.loc[merged_data['year'] == str(years[-1])][['country', 'emission_per_capita']]
-    emission_ten_years_ago = merged_data.loc[merged_data['year'] == str(years[-1] - 10)][['country', 'emission_per_capita']]
+    emission_now = merged_data.loc[merged_data['year'] == str(years[-1])][['country', 'emission_per_capita']]                                       ## szukamy w scalonych danych lokalizacji emisji per kapita z ostatniego roku i przypisujemy zlokalizowaną wartość tej emisji do zmiennej
+    emission_ten_years_ago = merged_data.loc[merged_data['year'] == str(years[-1] - 10)][['country', 'emission_per_capita']]                        ##  szukamy w scalonych danych lokalizacji emisji per kapita z roku 10 lat starszego od ostatniego w liście wszystkich i przypisujemy zlokalizowaną wartość  do zmiennej
     countries_ten_years_ago = numpy.unique(numpy.array(emission_ten_years_ago['country']))
-    countries_now = numpy.unique(numpy.array(emission_now['country']))
-    countries = numpy.hstack((countries_ten_years_ago, countries_now))
+    countries_now = numpy.unique(numpy.array(emission_now['country']))                                                                              ## Weźmy wszystkie kraje, które mierzyły emisję w ostatnim roku
+    countries = numpy.hstack((countries_ten_years_ago, countries_now))                                                                              ## Weźmy wszystkie kraje, które mierzyły emisje w roku 10 lat starszym od ostatniego roku
     countries = [item for item, count in Counter(countries).items() if count > 1]
     emission_ten_years_ago = emission_ten_years_ago[emission_ten_years_ago['country'].isin(countries)]
     emission_now = emission_now[emission_now['country'].isin(countries)]
