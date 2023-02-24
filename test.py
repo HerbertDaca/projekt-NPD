@@ -71,6 +71,38 @@ class Test(unittest.TestCase):
         data = pd.DataFrame(data)
         results = src.library.get_emission(2000,'A',data)
         self.assertEqual(results,2530)
-        
+
+    def test_get_countries_array(self):
+        data1 = {'Country Name': ['C',"B"],
+                'Country Code': ['TST','puf'],
+                'Indicator Name': ['test','ab'],
+                'Indicator Code': ['test','pip'],
+                "2001" : [1,2],
+                '2002': [0,3]}
+
+        data1 = pd.DataFrame(data1)
+
+        data2 = {'Country Name': ['Alfa',"Beta"],
+                'Country Code': ['TST','puf'],
+                'Indicator Name': ['test','ab'],
+                'Indicator Code': ['test','pip'],
+                "2001" : [11,23],
+                '2002': [0,32]}
+
+        data2 = pd.DataFrame(data2)
+
+        data3 = data = {'Year' : [2000,2001,2003],
+                'Country' : ['A','A', 'B'],
+                'Total' : [2530,1111,9999],
+                'Fuel' : [2530,1111,9999]
+                }
+
+        data3 = pd.DataFrame(data3)
+
+        results = src.library.get_countries_array(data1,data2,data3).tolist()
+
+        lista = ['A','Alfa','B','Beta','C']
+        self.assertListEqual(results,lista)
+
 if __name__ == '__main__':
     unittest.main()
