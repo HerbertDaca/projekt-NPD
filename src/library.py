@@ -10,7 +10,7 @@ def read_data(filename, skiprows):
 
 
 def get_min_max_years_from_row(data):
-    return [int(data.columns[4]), int(data.columns[-2])]
+    return [int(data.columns[4]), int(data.columns[-1])]
 
 
 def get_min_max_years_from_column(data):
