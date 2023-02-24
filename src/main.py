@@ -30,7 +30,9 @@ countries = library.get_countries_array(gdp_data, pop_data, emi_data)       ## I
 
 merged_array = library.get_merged_data(gdp_data, pop_data, emi_data, years, countries)
 
+print(gdp_data)
 library.get_top_five_emissions_per_capita(merged_array)
 library.get_top_five_gdp_per_capita(merged_array)
 
 library.get_biggest_difference_in_emission(merged_array, years)
+

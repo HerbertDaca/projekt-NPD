@@ -13,6 +13,7 @@ def get_min_max_years_from_row(data):
     return [int(data.columns[4]), int(data.columns[-1])]
 
 
+
 def get_min_max_years_from_column(data):
     return[data['Year'].min(), data['Year'].max()]
 

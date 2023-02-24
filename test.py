@@ -47,9 +47,30 @@ class Test(unittest.TestCase):
                 'Bunker fuels(Not in Total)': [1, 2, 3, 4, 5, 6]}
         df3 = pd.DataFrame(data)
         years_result = src.library.get_years_array(df1, df2, df3)
-
+        
         self.assertEqual(years_result, list(range(2003, 2007)))
 
+    def test_get_gdp_or_population(self):
+        # countr_data = ["A", "B"]
+        data = {'Country Name': ['A',"B"],
+                'Country Code': ['TST','puf'],
+                'Indicator Name': ['test','ab'],
+                'Indicator Code': ['test','pip'],
+                "2001" : [1,2],
+                '2002': [0,3]}
+        data = pd.DataFrame(data)
+        results = src.library.get_gdp_or_population(2001, 'A', data)
+        self.assertEqual(results,1)
 
+    def test_get_emision(self):
+        data = {'Year' : [2000,2001,2003],
+                'Country' : ['A','A', 'B'],
+                'Total' : [2530,1111,9999],
+                'Fuel' : [2530,1111,9999]
+                }
+        data = pd.DataFrame(data)
+        results = src.library.get_emission(2000,'A',data)
+        self.assertEqual(results,2530)
+        
 if __name__ == '__main__':
     unittest.main()
